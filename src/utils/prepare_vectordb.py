@@ -16,8 +16,7 @@ class PrepareVectorDB:
     Parameters:
         data_directory (str or List[str]): The directory or list of directories containing the documents.
         persist_directory (str): The directory to save the VectorDB.
-        embedding_model_engine (str): The engine for OpenAI embeddings.
-        chunk_size (int): The size of the chunks for document processing.
+        embedding_model_engine (str): The engine for OpenAI embeddings.        chunk_size (int): The size of the chunks for document processing.
         chunk_overlap (int): The overlap between chunks.
     """
 
@@ -26,10 +25,8 @@ class PrepareVectorDB:
             data_directory: str,
             persist_directory: str,
             embedding_model_engine: str,
-            fallback_embedding_model_engine: str,
             chunk_size: int,
             chunk_overlap: int,
-            confidence_threshold: float
     ) -> None:
         """
         Initialize the PrepareVectorDB instance.
@@ -44,7 +41,6 @@ class PrepareVectorDB:
         """
 
         self.embedding_model_engine = embedding_model_engine
-        self.fallback_embedding_model_engine = fallback_embedding_model_engine
         self.text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=chunk_size,
             chunk_overlap=chunk_overlap,
@@ -54,7 +50,6 @@ class PrepareVectorDB:
         self.data_directory = data_directory
         self.persist_directory = persist_directory
         self.embedding = OpenAIEmbeddings(model = self.embedding_model_engine)
-        self.confidence_threshold = confidence_threshold
 
     def __load_all_documents(self) -> List:
         """
@@ -116,41 +111,8 @@ class PrepareVectorDB:
                 persist_directory=self.persist_directory
             )
         except Exception as e:
-            print(f"Error using {self.embedding_model_engine}, falling back to {self.fallback_embedding_model_engine}.")
-            fallback_embedding = OpenAIEmbeddings(model=self.fallback_embedding_model_engine)
-            vectordb = Chroma.from_documents(
-                documents=chunked_documents,
-                embedding=fallback_embedding,
-                persist_directory=self.persist_directory
-            )
+            print(f"Error using {self.embedding_model_engine}, falling back to default embeddings.")
         
         print("VectorDB is created and saved.")
         print("Number of vectors in vectordb:", vectordb._collection.count(), "\n\n")
         return vectordb
-    
-    def query_vectordb(self, query: str):
-        """
-        Query the VectorDB and apply the confidence threshold.
-        
-        Parameters:
-            query (str): The user query to search in the VectorDB.
-
-        Returns:
-            List: A list of results that meet the confidence threshold.
-        """
-        vectordb = Chroma(persist_directory=self.persist_directory, embedding=self.embedding)
-        
-        # Retrieve documents based on the query
-        results = vectordb.similarity_search_with_score(query)
-
-        # Filter based on confidence threshold
-        filtered_results = [
-            (doc, score) for doc, score in results if score >= self.confidence_threshold
-        ]
-
-        if not filtered_results:
-            print("No results met the confidence threshold.")
-            return None
-
-        print(f"{len(filtered_results)} results met the confidence threshold.")
-        return filtered_results

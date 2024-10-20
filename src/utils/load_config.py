@@ -9,7 +9,6 @@ import shutil
 
 load_dotenv()
 
-
 class LoadConfig:
     """
     A class for loading configuration settings and managing directories.
@@ -79,7 +78,6 @@ class LoadConfig:
         self.data_directory = app_config["directories"]["data_directory"]
         self.k = app_config["retrieval_config"]["k"]
         self.embedding_model_engine = app_config["embedding_model_config"]["engine"]
-        self.fallback_embedding_model_engine = app_config["embedding_model_config"]["fallback_embedding_model"]
         self.chunk_size = app_config["splitter_config"]["chunk_size"]
         self.chunk_overlap = app_config["splitter_config"]["chunk_overlap"]
         self.adaptive_chunking = app_config["splitter_config"]["adaptive_chunking"]
@@ -93,7 +91,6 @@ class LoadConfig:
             "summarizer_config"]["final_summarizer_llm_system_role"]
         self.long_document_strategy = app_config["summarizer_config"]["long_document_strategy"]
         self.temperature = app_config["llm_config"]["temperature"]
-        self.confidence_threshold = app_config["llm_config"]["confidence_threshold"]
         
 
         # Memory
@@ -125,16 +122,11 @@ class LoadConfig:
         """
         Load OpenAI configuration settings with error checks.
         """
-        api_type = os.getenv("OPENAI_API_TYPE")
-        api_base = os.getenv("OPENAI_API_BASE")
         api_key = os.getenv("OPENAI_API_KEY")
 
         # Check if any of the required variables are None
-        if not all([api_type, api_base, api_key]):
+        if not all([api_key]):
             raise ValueError("OpenAI API configuration is incomplete. Please check the environment variables.")
-
-        openai.api_type = api_type
-        openai.api_base = api_base
         openai.api_key = api_key
 
     def create_directory(self, directory_path: str):
@@ -169,11 +161,3 @@ class LoadConfig:
                 print(f"Error: {e}")
         else:
             print(f"The directory '{directory_path}' does not exist.")
-            
-    def get_embeddings(self, text):
-        try:
-            return self.embedding_model.embed_documents(text)
-        except Exception as e:
-            print(f"Error using {self.embedding_model_engine}, falling back to {self.fallback_embedding_model_engine}")
-            fallback_embedding_model = OpenAIEmbeddings(model=self.fallback_embedding_model_engine)
-            return fallback_embedding_model.embed_documents(text)

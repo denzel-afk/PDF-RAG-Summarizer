@@ -6,12 +6,9 @@ directories:
 
 embedding_model_config:
   engine: "text-embedding-ada-002"
-  fallback_embedding_model : "text-embedding-babbage-001" # Fallback model in case the primary model fails to generate embeddings
-
 llm_config:
     llm_system_role: "You are a chatbot. You'll receive a prompt that includes a chat history, retrieved content from the vectorDB based on the user's question, and the source.\ 
     Your task is to respond to the user's new question using the information from the vectorDB without relying on your own knowledge.\
-    If you do not know the answer, you can say 'I do not know'.\
     you will receive a prompt with the the following format:
 
     # Chat history:\n
@@ -24,10 +21,9 @@ llm_config:
     # User question:\n
     New question
     "
-    engine: "gpt-35-turbo"
+    engine: "gpt-3.5-turbo"
     temperature: 0.0
     max_token: 4096
-    confidence_threshold : 0.5
 
 summarizer_config:
     max_final_token: 3000

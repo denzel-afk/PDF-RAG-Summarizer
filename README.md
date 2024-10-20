@@ -16,8 +16,6 @@ The chatbot provides three distinct functionalities for you to choose from:
 - The project includes comprehensive guidance on configuring various settings, such as adjusting the GPT model's temperature to achieve optimal performance. Designed for a user-friendly experience, the Gradio interface ensures ease of navigation and interaction.
 - Additionally, the model incorporates memory capabilities, allowing it to retain user questions and answers for a more personalized and enhanced experience. With each response, you can access the relevant retrieved content and conveniently view the corresponding PDF for further context.
 
-## RAGPT User Interface
-
 ## Project Schema
 
 <div align = "center">
@@ -26,7 +24,7 @@ The chatbot provides three distinct functionalities for you to choose from:
 
 Note:
 
-1. This picture is taken from the YouTube resources that I have put above, while the UI for the project I will modify it by myself, and the backend system that is happening behind also I modify it by myself
+1. This picture is taken from the YouTube resources that I have put above, while the backend system that is happening behind also I modify it by myself
 2. The database here is still manually inserted, maybe further in the future I will try using MongoDB as my database system to upload all the PDFs inside.
 
 ## Document Storage

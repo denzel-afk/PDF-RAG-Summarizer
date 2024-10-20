@@ -64,14 +64,15 @@ class ChatBot:
         print("========================")
         print(prompt)
         response = openai.ChatCompletion.create(
-            engine=APPCFG.llm_engine,
+            model="gpt-3.5-turbo",  # Correct model name
             messages=[
                 {"role": "system", "content": APPCFG.llm_system_role},
                 {"role": "user", "content": prompt}
             ],
             temperature=temperature,
-            # stream=False
+            max_tokens=1500
         )
+
         chatbot.append(
             (message, response["choices"][0]["message"]["content"]))
         time.sleep(2)

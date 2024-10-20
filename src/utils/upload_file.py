@@ -28,11 +28,9 @@ class UploadFile:
         if rag_with_dropdown == "Upload doc: Process for RAG":
             prepare_vectordb_instance = PrepareVectorDB(data_directory=files_dir,
                                                         persist_directory=APPCFG.custom_persist_directory,
-                                                        embedding_model_engine=APPCFG.embedding_model_engine,
-                                                        fallback_embedding_model_engine=APPCFG.fallback_embedding_model_engine,
-                                                        chunk_size=APPCFG.chunk_size,
+                                                        embedding_model_engine=APPCFG.embedding_model_engine,                                                        chunk_size=APPCFG.chunk_size,
                                                         chunk_overlap=APPCFG.chunk_overlap,
-                                                        confidence_threshold=APPCFG.confidence_threshold)
+)
             prepare_vectordb_instance.prepare_and_save_vectordb()
             chatbot.append(
                 (" ", "Uploaded files are ready. Please ask your question"))
@@ -45,8 +43,7 @@ class UploadFile:
                                                          temperature=APPCFG.temperature,
                                                          summarizer_llm_system_role=APPCFG.summarizer_llm_system_role,
                                                          final_summarizer_llm_system_role=APPCFG.final_summarizer_llm_system_role,
-                                                         character_overlap=APPCFG.character_overlap,
-                                                         confidence_threshold=APPCFG.confidence_threshold)
+                                                         character_overlap=APPCFG.character_overlap)
             chatbot.append(
                 (" ", final_summary))
         else:
