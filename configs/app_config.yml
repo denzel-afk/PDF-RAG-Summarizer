@@ -38,8 +38,6 @@ summarizer_config:
     final_summarizer_llm_system_role: "You are an expert text summarizer. You will receive a text and your task is to give a comprehensive summary and keep all the key information."
     long_document_strategy : "split_and_summarize"
 
-
-
 splitter_config:
   chunk_size: 2000
   chunk_overlap: 700
