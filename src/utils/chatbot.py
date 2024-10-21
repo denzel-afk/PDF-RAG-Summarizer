@@ -10,9 +10,8 @@ import html
 from utils.load_config import LoadConfig
 
 APPCFG = LoadConfig()
-URL = "https://github.com/Farzad-R/LLM-Zero-to-Hundred/tree/master/RAG-GPT"
+URL = "https://github.com/denzel-afk/PDF-RAG-Summarizer"
 hyperlink = f"[RAG-GPT user guideline]({URL})"
-
 
 class ChatBot:
     """
@@ -58,19 +57,18 @@ class ChatBot:
         print(docs)
         question = "# User new question:\n" + message
         retrieved_content = ChatBot.clean_references(docs)
-        # Memory: previous two Q&A pairs
         chat_history = f"Chat history:\n {str(chatbot[-APPCFG.number_of_q_a_pairs:])}\n\n"
         prompt = f"{chat_history}{retrieved_content}{question}"
         print("========================")
         print(prompt)
         response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",  # Correct model name
+            model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": APPCFG.llm_system_role},
                 {"role": "user", "content": prompt}
             ],
             temperature=temperature,
-            max_tokens=1500
+            max_tokens=2000
         )
 
         chatbot.append(
