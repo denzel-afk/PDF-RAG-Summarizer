@@ -24,10 +24,10 @@ llm_config:
     "
     engine: "gpt-3.5-turbo"
     temperature: 0.0
-    max_token: 4096
+    max_token: 1200
 
 summarizer_config:
-    max_final_token: 3000
+    max_final_token: 2000
     character_overlap: 100
     token_threshold: 0
     summarizer_llm_system_role: "You are an expert text summarizer. You will receive a text and your task is to summarize and keep all the key information.\
