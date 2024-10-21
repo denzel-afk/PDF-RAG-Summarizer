@@ -8,7 +8,7 @@ class Summarizer:
     A class for summarizing PDF documents using OpenAI's ChatGPT engine.
     """
 
-    def __init__(self, chunk_size=1000, chunk_overlap=200, character_overlap=0):
+    def __init__(self, chunk_size=1000, chunk_overlap=200):
         """
         Initializes the Summarizer class with a text splitter.
         Now accepts character_overlap as a parameter.
@@ -16,7 +16,6 @@ class Summarizer:
         self.text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=chunk_size, 
             chunk_overlap=chunk_overlap,
-            character_overlap=character_overlap
         )
 
     def summarize_the_pdf(
@@ -34,11 +33,6 @@ class Summarizer:
         Summarizes the content of a PDF file using OpenAI's ChatGPT engine.
         """
         docs = PyPDFLoader(file_dir).load()
-        self.text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=self.text_splitter.chunk_size,
-            chunk_overlap=self.text_splitter.chunk_overlap,
-            character_overlap=character_overlap
-        )
         chunked_docs = self.text_splitter.split_documents(docs)
         max_summarizer_output_token = int(max_final_token / len(chunked_docs)) - token_threshold
 
