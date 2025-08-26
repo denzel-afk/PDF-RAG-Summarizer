@@ -50,9 +50,9 @@ with gr.Blocks() as demo:
                         [],
                         elem_id="chatbot",
                         bubble_full_width=False,
-                        height=500,
+                        height=400,
                         avatar_images=(
-                            ("images/AI_RT.png"), "images/openai_.png"),
+                            ("Denzel.png"), "images/openai_.png"),
                         # render=False
                     )
                     # **Adding like/dislike icons
