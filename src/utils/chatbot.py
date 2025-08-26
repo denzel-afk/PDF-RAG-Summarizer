@@ -58,7 +58,14 @@ class ChatBot:
         question = "# User new question:\n" + message
         retrieved_content = ChatBot.clean_references(docs)
         chat_history = f"Chat history:\n {str(chatbot[-APPCFG.number_of_q_a_pairs:])}\n\n"
-        prompt = f"{chat_history}{retrieved_content}{question}"
+        
+        # Create a clean prompt without showing debug info to user
+        # Only include the actual content for the LLM, not the formatted display text
+        clean_retrieved_content = ""
+        for i, doc in enumerate(docs, 1):
+            clean_retrieved_content += f"Document {i} content: {doc.page_content}\n\n"
+        
+        prompt = f"{chat_history}Retrieved information:\n{clean_retrieved_content}\n{question}"
         print("========================")
         print(prompt)
         response = openai.ChatCompletion.create(
@@ -71,8 +78,10 @@ class ChatBot:
             max_tokens=2000
         )
 
-        chatbot.append(
-            (message, response["choices"][0]["message"]["content"]))
+        # Get clean response content without debug information
+        clean_response = response["choices"][0]["message"]["content"]
+        
+        chatbot.append((message, clean_response))
         time.sleep(2)
 
         return "", chatbot, retrieved_content
