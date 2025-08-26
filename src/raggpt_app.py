@@ -52,7 +52,7 @@ with gr.Blocks() as demo:
                         bubble_full_width=False,
                         height=400,
                         avatar_images=(
-                            ("Denzel.png"), "images/openai_.png"),
+                            ("images/Denzel.png"), "images/openai_.png"),
                         # render=False
                     )
                     # **Adding like/dislike icons

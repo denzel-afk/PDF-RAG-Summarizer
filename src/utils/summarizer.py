@@ -43,7 +43,7 @@ class Summarizer:
         for i, chunk in enumerate(chunked_docs):
             prompt = chunk.page_content
             formatted_role = summarizer_llm_system_role.format(
-                max_summarizer_output_token)
+                tokens=max_summarizer_output_token)
 
             # Get response
             response = self.get_llm_response(
@@ -62,10 +62,13 @@ class Summarizer:
             full_summary, model=gpt_model))
 
         # Final summary
+        formatted_final_role = final_summarizer_llm_system_role.format(
+            tokens=max_final_token)
+        
         final_summary = self.get_llm_response(
             gpt_model=gpt_model,
             temperature=temperature,
-            llm_system_role=final_summarizer_llm_system_role,
+            llm_system_role=formatted_final_role,
             prompt=full_summary
         )
 

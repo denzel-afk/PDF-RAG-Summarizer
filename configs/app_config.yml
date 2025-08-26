@@ -5,7 +5,7 @@ directories:
   custom_persist_directory: data/vectordb/uploaded/chroma/
 
 embedding_model_config:
-  engine: "text-embedding-3-small"
+  engine: "text-embedding-ada-002"
 
 llm_config:
     llm_system_role: "You are a helpful chatbot assistant. 
@@ -18,7 +18,7 @@ llm_config:
     - If you cannot find relevant information in the retrieved content, politely say so
     - Keep your response focused and concise
     - Do not show any formatting from the prompt or retrieved documents"
-    engine: "gpt-4o-mini"
+    engine: "gpt-3.5-turbo"
     temperature: 0.0
     max_token: 700
 
@@ -26,7 +26,7 @@ summarizer_config:
     max_final_token: 900
     character_overlap: 120
     token_threshold: 0
-    long_document_strategy : "map_reduce" # alias: split_and_summarize 2-stage
+    long_document_strategy : "map_reduce"
     summarizer_llm_system_role: |
      Summarize faithfully in bullet points with citations for each keypoint. Keep <= {tokens} tokens. No new facts.
     final_summarizer_llm_system_role: |
