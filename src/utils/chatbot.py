@@ -69,13 +69,13 @@ class ChatBot:
         print("========================")
         print(prompt)
         response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+            model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": APPCFG.llm_system_role},
                 {"role": "user", "content": prompt}
             ],
             temperature=temperature,
-            max_tokens=2000
+            max_tokens=700
         )
 
         # Get clean response content without debug information

@@ -5,7 +5,8 @@ directories:
   custom_persist_directory: data/vectordb/uploaded/chroma/
 
 embedding_model_config:
-  engine: "text-embedding-ada-002"
+  engine: "text-embedding-3-small"
+
 llm_config:
     llm_system_role: "You are a helpful chatbot assistant. 
      You'll receive a chat history, retrieved content from documents, and a user's question. Your task is to provide a clear, informative response to the user's question using the retrieved information. 
@@ -17,22 +18,23 @@ llm_config:
     - If you cannot find relevant information in the retrieved content, politely say so
     - Keep your response focused and concise
     - Do not show any formatting from the prompt or retrieved documents"
-    engine: "gpt-3.5-turbo"
+    engine: "gpt-4o-mini"
     temperature: 0.0
-    max_token: 1200
+    max_token: 700
 
 summarizer_config:
-    max_final_token: 2000
-    character_overlap: 100
+    max_final_token: 900
+    character_overlap: 120
     token_threshold: 0
-    summarizer_llm_system_role: "You are an expert text summarizer. You will receive a text and your task is to summarize and keep all the key information.\
-      Keep the maximum length of summary within {} number of tokens."
-    final_summarizer_llm_system_role: "You are an expert text summarizer. You will receive a text and your task is to give a comprehensive summary and keep all the key information."
-    long_document_strategy : "split_and_summarize"
+    long_document_strategy : "map_reduce" # alias: split_and_summarize 2-stage
+    summarizer_llm_system_role: |
+     Summarize faithfully in bullet points with citations for each keypoint. Keep <= {tokens} tokens. No new facts.
+    final_summarizer_llm_system_role: |
+     You are an expert text summarizer. You will receive a text and your task is to give a comprehensive summary and keep all the key information. Keep <= {tokens} tokens.
 
 splitter_config:
-  chunk_size: 2500
-  chunk_overlap: 700
+  chunk_size: 1000
+  chunk_overlap: 200
   adaptive_chunking : True
 
 retrieval_config:
